@@ -1,10 +1,12 @@
 import cv2
 import random
+from pathlib import Path
 from ultralytics import YOLO
 
 # model.names contiene los nombres de las clases que reconoce el modelo
 # asigna un color a cada clase
-model = YOLO('runs/peluches/nano/weights/best.pt')
+model_path = Path(__file__).resolve().parent / 'runs/peluches/train/weights/best.pt'
+model = YOLO(str(model_path))
 colors = {
     cls_name: tuple(random.randint(0, 255) for _ in range(3))
     for cls_name in model.names.values()
@@ -22,7 +24,7 @@ while True:
 
     # Analiza el fotograma con el modelo YOLO
     # verbose=False evita que el modelo imprima su resumen en la terminal.
-    results = model(frame, verbose=False)
+    results = model(frame, conf=0.25, verbose=False)
     # Crea una copia del fotograma para dibujar sobre ella.
     im = frame.copy()
     # results[0] corresponde al resultado de la imagen enviada .boxes contiene sus detecciones.

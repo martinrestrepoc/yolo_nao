@@ -16,3 +16,12 @@ runs/
 *.cache
 .ipynb_checkpoints/
 .DS_Store
+
+# Solo versionar el notebook de entrenamiento nano
+/*.ipynb
+!/Entrenamiento_Peluches_YOLO_nano.ipynb
+
+# Solo versionar el dataset que usa nano (v3)
+/Imagenes peluches/
+/imagenes_peluches*/
+!/imagenes_peluchesv3/
