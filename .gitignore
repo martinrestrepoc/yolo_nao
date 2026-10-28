@@ -17,6 +17,9 @@ wheels/
 .ipynb_checkpoints/
 .DS_Store
 
+# Notas técnicas locales
+/NOTAS_DESARROLLO.md
+
 # Solo versionar el notebook de entrenamiento nano
 /*.ipynb
 !/Entrenamiento_Peluches_YOLO_nano.ipynb
