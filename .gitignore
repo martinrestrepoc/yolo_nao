@@ -10,7 +10,7 @@ wheels/
 .venv
 
 # Entrenamientos y archivos locales
-runs/
+/runs/*
 *.pt
 *.onnx
 *.cache
@@ -25,3 +25,12 @@ runs/
 /Imagenes peluches/
 /imagenes_peluches*/
 !/imagenes_peluchesv3/
+
+# Incluir solo los mejores pesos del modelo nano para usarlo al clonar
+!/runs/peluches/
+/runs/peluches/*
+!/runs/peluches/train/
+/runs/peluches/train/*
+!/runs/peluches/train/weights/
+/runs/peluches/train/weights/*
+!/runs/peluches/train/weights/best.pt

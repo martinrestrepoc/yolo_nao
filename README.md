@@ -69,7 +69,19 @@ Sebastián; los conteos por grupo todavía no son exactamente iguales.
 
 Mantén juntas las fotos casi iguales de una sesión y sus variantes aumentadas.
 Usa validación para elegir parámetros y reserva test para la evaluación final.
-Los resultados, pesos y cachés están excluidos de Git.
+Los resultados, cachés y demás pesos están excluidos de Git, excepto
+`runs/peluches/train/weights/best.pt`, que se incluye para poder usar el modelo
+nano sin volver a entrenarlo al clonar.
+
+Para probarlo después de clonar, desde la raíz del proyecto ejecuta:
+
+```bash
+uv sync
+uv run python probar_camara.py
+```
+
+Presiona `q` para cerrar la cámara. Solo necesitas ejecutar el entrenamiento
+del notebook si deseas generar un modelo nuevo.
 
 ## Comparación nano y medium con el dataset v3
 
