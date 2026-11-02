@@ -167,19 +167,28 @@ actual con el export aumentado de Roboflow. Como se utilizaron divisiones y
 cantidades de entrenamiento diferentes, esta comparación no permite atribuir
 la diferencia únicamente a la herramienta de aumentación.
 
-Con el mismo dataset actual se comparó **YOLO26 nano con YOLO26 medium**,
+Con el mismo dataset actual se compararon **YOLO26 nano, small y medium**,
 manteniendo las divisiones, los parámetros de entrenamiento y el umbral de
 evaluación `conf=0.25`:
 
-| Métrica | Nano | Medium |
-|---|---:|---:|
-| mAP50-95 en validación | 0.903 | 0.861 |
-| mAP50-95 en test | 0.895 | 0.834 |
-| mAP50 en test | 0.995 | 0.995 |
+| Métrica | Nano | Small | Medium |
+|---|---:|---:|---:|
+| mAP50-95 en validación | **0.903** | 0.877 | 0.861 |
+| mAP50-95 en test | **0.895** | 0.853 | 0.834 |
+| mAP50 en test | 0.995 | 0.995 | 0.995 |
 
-Medium no mejoró el resultado en esta ejecución: ambos alcanzaron el mismo
-mAP50 en test, pero nano obtuvo mayor mAP50-95, que exige cajas más precisas.
-Por eso se conservó nano como modelo del script de cámara. Esto no significa
-que medium siempre rinda peor; la conclusión corresponde a estos datos y esta
-configuración. Los notebooks y datasets de los experimentos alternativos se
-conservan localmente y están excluidos de Git.
+**Nano fue el mejor modelo en estas pruebas.** Probar modelos más grandes no
+mejoró el rendimiento: en mAP50-95 de test, small quedó 4.2 puntos porcentuales
+por debajo de nano y medium quedó 6.1 puntos por debajo.
+
+La diferencia parece estar principalmente en el ajuste de las cajas, no en
+distinguir los peluches. Los tres llegaron a 99.5 % de mAP50 en test, pero nano
+rindió mejor cuando se exigió mayor superposición con las etiquetas mediante
+mAP50-95. Esto sugiere una ventaja en localización; mAP50 por sí solo no permite
+separar completamente los errores de clasificación y de ubicación.
+
+Por estos resultados se conservó nano como modelo del script de cámara.
+La conclusión corresponde a estas ejecuciones, datos y configuración; no
+demuestra que los modelos más grandes siempre rindan peor. Los notebooks y
+datasets de los experimentos alternativos se conservan localmente y están
+excluidos de Git.

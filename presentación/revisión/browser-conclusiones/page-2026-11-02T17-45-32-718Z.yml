@@ -1,0 +1,32 @@
+- generic [active] [ref=e1]:
+  - link "Ir a la diapositiva" [ref=e2] [cursor=pointer]:
+    - /url: "#deck"
+  - banner [ref=e3]:
+    - link "Volver al inicio" [ref=e4] [cursor=pointer]:
+      - /url: "#1"
+      - text: NAO / sus amigos
+    - button "Índice" [ref=e6] [cursor=pointer]: Índice ↗
+  - main "Presentación del proyecto" [ref=e7]:
+    - region [ref=e41]:
+      - generic [ref=e42]:
+        - heading "Lo que todavía falta comprobar" [level=2] [ref=e43]
+        - generic [ref=e44]:
+          - generic [ref=e45]:
+            - heading "Fotos realmente nuevas" [level=3] [ref=e46]
+            - paragraph [ref=e47]: Otras sesiones, más distancia, poca luz, oclusiones y peluches parecidos.
+            - heading "Independencia de los grupos" [level=3] [ref=e48]
+            - paragraph [ref=e49]: La división precedió a los aumentos, pero no agrupó automáticamente las fotos originales casi iguales.
+          - generic [ref=e50]:
+            - generic [ref=e51]: "32"
+            - paragraph [ref=e52]: imágenes en test
+            - paragraph [ref=e53]: El test es pequeño. Las curvas y los promedios no sustituyen la prueba con cámara en otros escenarios.
+            - paragraph [ref=e54]: No se verificó el efecto de varias semillas de entrenamiento.
+        - paragraph [ref=e55]: Los resultados respaldan esta elección; no garantizan cualquier escenario.
+  - contentinfo [ref=e22]:
+    - generic [aria-hidden] [ref=e24]: 13 / 14
+    - generic [ref=e26]:
+      - button "Notas" [ref=e27] [cursor=pointer]
+      - button "Mostrar atajos de teclado" [ref=e28] [cursor=pointer]: "?"
+      - button "Diapositiva anterior" [ref=e32] [cursor=pointer]
+      - button "Diapositiva siguiente" [ref=e35] [cursor=pointer]
+  - status [ref=e40]: "Diapositiva 13 de 14: Lo que todavía falta comprobar"

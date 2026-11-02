@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4f1e9">
+  <meta name="description" content="Los amigos que NAO quiere reconocer: fotografías propias, entrenamiento de YOLO26 y prueba del modelo con Python.">
+  <title>Los amigos de NAO · YOLO26 nano</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="assets/fonts/display.css">
+  <link rel="stylesheet" href="assets/fonts/body.css">
+  <link rel="stylesheet" href="styles.css">
+  <script src="data.js" defer></script>
+  <script src="presentation.js" defer></script>
+</head>
+<body>
+<a class="skip-link" href="#deck">Ir a la diapositiva</a>
+<header class="masthead">
+  <a class="wordmark" href="#1" aria-label="Volver al inicio">NAO <span class="wordmark-divider">/</span> sus amigos</a>
+  <span class="masthead-context">Visión para reconocer a sus amigos</span>
+  <button class="text-control" id="index-button" type="button" aria-haspopup="dialog">Índice <span aria-hidden="true">↗</span></button>
+</header>
+<main class="deck" id="deck" tabindex="-1" aria-label="Presentación del proyecto">
+
+<section class="slide active cover" id="slide-1" aria-labelledby="title-1" data-title="Los amigos que NAO quiere reconocer">
+ <div class="slide-inner cover-layout">
+  <div class="cover-copy">
+   <h1 id="title-1">NAO quiere<br>reconocer a sus<br><em>amigos.</em></h1>
+   <p class="lead">Entrenamos un modelo con fotografías propias para que NAO pueda reconocer a sus tres amigos.</p>
+   <p class="cover-meta">YOLO26 nano · reconocimiento de sus amigos</p>
+   <div class="cover-rule"></div>
+   <p class="cover-bottom">Datos → entrenamiento → evaluación → cámara</p>
+  </div>
+  <figure class="hero-figure">
+   <img src="assets/hero-1.webp" alt="Peluche de Martín con disfraz verde, fotografiado de frente sobre una cama" width="900" height="1200" fetchpriority="high">
+   <figcaption><span>Martín</span><span>Fotografía del dataset</span></figcaption>
+  </figure>
+ </div>
+ <aside class="speaker-notes">Los peluches representan a los amigos que NAO quiere reconocer. Este proyecto entrena y evalúa el detector para ese objetivo; la demostración actual prueba el modelo con la cámara del computador. No se afirma que el modelo ya esté integrado o ejecutándose dentro del robot. Los datos experimentales proceden del README y los archivos del proyecto.</aside>
+</section>
+
+<section class="slide" id="slide-2" aria-labelledby="title-2" data-title="Los tres amigos de NAO">
+ <div class="slide-inner">
+  <h2 id="title-2">Los tres amigos de NAO</h2>
+  <p class="intro">Cada amigo es una clase. El detector aprende a localizarlo y asignarle su nombre.</p>
+  <div class="specimen-grid grow">
+   <figure><img src="assets/subject-0.webp" alt="Peluche azul de Juan José en una escena con poca luz" width="900" height="1200"><figcaption><strong>Juan José</strong><code>peluche_Juan Jose</code></figcaption></figure>
+   <figure><img src="assets/subject-1.webp" alt="Peluche de Martín visto de lado y de espalda" width="900" height="1200"><figcaption><strong>Martín</strong><code>peluche_martin</code></figcaption></figure>
+   <figure><img src="assets/subject-2.webp" alt="Peluche café de Sebastián acostado junto a un sofá" width="900" height="1200"><figcaption><strong>Sebastián</strong><code>peluche_sebastian</code></figcaption></figure>
+  </div>
+  <p class="slide-footnote">NAO quiere reconocer a estos tres amigos específicos. Otros peluches pueden servir como distractores.</p>
+ </div>
+ <aside class="speaker-notes">Distinguir detección de clasificación de una foto completa: aquí se produce una caja por objeto. Las vistas distintas del mismo peluche comparten la misma clase. Estas fotos son del export real.</aside>
+</section>
+
+<section class="slide" id="slide-3" aria-labelledby="title-3" data-title="Las fotografías se convierten en datos">
+ <div class="slide-inner">
+  <h2 id="title-3">Las fotografías se convierten en datos</h2>
+  <div class="process-layout grow">
+   <div class="process-photo"><img src="assets/hero-0.webp" alt="Fotografía del peluche azul en una silla, usada como ejemplo de captura" width="900" height="1200"></div>
+   <ol class="process-list">
+    <li><span class="step-number">1</span><div><h3>Fotografías propias</h3><p>Distintos ángulos, posiciones, distancias y lugares.</p></div></li>
+    <li><span class="step-number">2</span><div><h3>Etiquetas en Roboflow</h3><p>Una caja ajustada y la clase de cada peluche objetivo.</p></div></li>
+    <li><span class="step-number">3</span><div><h3>Ejemplos negativos</h3><p>Escenas sin los objetivos, con archivos de etiquetas vacíos.</p></div></li>
+    <li><span class="step-number">4</span><div><h3>Exportación YOLO26</h3><p>Imágenes, etiquetas y un YAML para entrenar en el notebook.</p></div></li>
+   </ol>
+  </div>
+ </div>
+ <aside class="speaker-notes">El archivo de etiquetas contiene clase y coordenadas normalizadas, no rectángulos dibujados permanentemente sobre las fotos. Auto-Orient normaliza la orientación EXIF. El export actual no incluye redimensionamiento fijo; el notebook usa imgsz=640.</aside>
+</section>
+
+<section class="slide" id="slide-4" aria-labelledby="title-4" data-title="Primero dividir, después aumentar">
+ <div class="slide-inner">
+  <h2 id="title-4">Primero dividir,<br>después aumentar</h2>
+  <div class="split-layout grow">
+   <div class="split-origin"><span class="large-number">323</span><p>fotografías originales</p><div class="split-bar" role="img" aria-label="División original aproximada: 70 por ciento entrenamiento, 20 validación y 10 test"><span class="train-part">70 %</span><span class="val-part">20 %</span><span class="test-part">10 %</span></div></div>
+   <div class="split-table-wrap"><table class="split-table"><caption>Imágenes por grupo</caption><thead><tr><th scope="col">Grupo</th><th scope="col">Originales</th><th scope="col">Export final</th></tr></thead><tbody><tr class="emphasis-row"><th scope="row">Train <span>×2</span></th><td>226</td><td>452</td></tr><tr><th scope="row">Validación</th><td>65</td><td>65</td></tr><tr><th scope="row">Test</th><td>32</td><td>32</td></tr></tbody><tfoot><tr><th scope="row">Total</th><td>323</td><td>549</td></tr></tfoot></table></div>
+  </div>
+  <p class="bottom-statement">Solo crece train. Validación y test conservan sus imágenes originales.</p>
+ </div>
+ <aside class="speaker-notes">El 70/20/10 se aplica aproximadamente antes del aumento. Después, los porcentajes sobre 549 son alrededor de 82/12/6. No implica que se hayan reducido validación y test. La división global no garantiza el mismo número por clase. Las fotos originales casi iguales deben agruparse por sesión; esto no se verificó automáticamente.</aside>
+</section>
+
+<section class="slide" id="slide-5" aria-labelledby="title-5" data-title="Aumentos moderados, solo en train">
+ <div class="slide-inner">
+  <h2 id="title-5">Aumentos moderados, solo en train</h2>
+  <div class="augment-layout grow">
+   <div class="augment-photos"><figure><img src="assets/augment-a.webp" alt="Primera versión real de una foto del peluche de Martín exportada de Roboflow" width="900" height="1200"><figcaption>Versión A</figcaption></figure><figure><img src="assets/augment-b.webp" alt="Segunda versión de la misma fotografía, con volteo y variaciones de imagen" width="900" height="1200"><figcaption>Versión B</figcaption></figure></div>
+   <div class="augment-details"><p class="big-inline">×2 <span>dos imágenes en total por original de train</span></p><dl class="parameter-list"><div><dt>Volteo horizontal</dt><dd>50 %</dd></div><div><dt>Rotación</dt><dd>−10° a +10°</dd></div><div><dt>Brillo</dt><dd>−15 % a +15 %</dd></div><div><dt>Exposición</dt><dd>−10 % a +10 %</dd></div><div><dt>Desenfoque</dt><dd>hasta 1.5 px</dd></div></dl><p class="small-copy">Auto-Orient se aplica como preprocesamiento. Los aumentos no sustituyen fotografías nuevas.</p></div>
+  </div>
+ </div>
+ <aside class="speaker-notes">Las dos imágenes son variantes reales del mismo original, no una simulación. x2 significa original preprocesado más una variante, no dos variantes adicionales. El notebook añade variaciones moderadas de saturación, luminosidad, desplazamiento y escala durante train. Rotación, volteo adicional y mosaic están desactivados en esa fase.</aside>
+</section>
+
+<section class="slide dark" id="slide-6" aria-labelledby="title-6" data-title="Aprender, elegir y medir">
+ <div class="slide-inner">
+  <h2 id="title-6">Aprender, elegir y medir</h2>
+  <p class="intro">Los tres grupos cumplen trabajos distintos.</p>
+  <div class="role-rows grow">
+   <div class="role-row"><h3>Train</h3><p>Actualiza los pesos del modelo.</p><span>452 imágenes</span></div>
+   <div class="role-row"><h3>Validación</h3><p>Guía la selección de best.pt y la parada anticipada.</p><span>65 imágenes</span></div>
+   <div class="role-row"><h3>Test</h3><p>Evalúa el modelo final con imágenes reservadas.</p><span>32 imágenes</span></div>
+  </div>
+  <p class="bottom-statement">Validar y probar no continúa el aprendizaje.</p>
+ </div>
+ <aside class="speaker-notes">val=True ejecuta validación durante cada época. La sección de validación posterior vuelve a evaluar best.pt con conf=0.25 y dibuja la matriz. Test no participa en la elección de mejores pesos; usarlo repetidamente para ajustar decisiones reduce su independencia.</aside>
+</section>
+
+<section class="slide" id="slide-7" aria-labelledby="title-7" data-title="El mejor nano se obtuvo en la época 45">
+ <div class="slide-inner">
+  <h2 id="title-7">El mejor nano se obtuvo<br>en la época 45</h2>
+  <div class="training-layout grow">
+   <div class="training-recipe"><h3>YOLO26 nano preentrenado</h3><dl class="parameter-list"><div><dt>Máximo de épocas</dt><dd>50</dd></div><div><dt>Resolución</dt><dd>640 px</dd></div><div><dt>Lote</dt><dd>4 imágenes</dd></div><div><dt>Paciencia</dt><dd>10 épocas</dd></div><div><dt>Semilla</dt><dd>42</dd></div></dl></div>
+   <div class="checkpoint"><span class="epoch-number">45<span>/50</span></span><p>Mejor época de validación</p><div class="checkpoint-result"><strong>0.90644</strong><span>mAP50-95 durante el entrenamiento</span></div><p class="small-copy">best.pt conserva el mejor resultado, aunque el entrenamiento continúe.</p></div>
+  </div>
+ </div>
+ <aside class="speaker-notes">La cifra viene de results.csv. No se activó paciencia 10 porque al terminar en la época 50 habían pasado solo 5 épocas desde la mejor. No significa que 50 sea un óptimo universal ni que 100 fuera necesariamente mejor. La reevaluación con conf=0.25 da 0.903, y se debe distinguir de este registro automático.</aside>
+</section>
+
+<section class="slide" id="slide-8" aria-labelledby="title-8" data-title="Las curvas muestran aprendizaje y estabilización">
+ <div class="slide-inner">
+  <h2 id="title-8">Aprendizaje y estabilización</h2>
+  <div class="chart-grid grow">
+   <figure class="data-figure"><figcaption><h3>mAP50-95 de validación</h3><p>Cuanto más alto, mejor</p></figcaption><div id="map-chart" class="line-chart" role="img" aria-label="mAP50-95 de validación por época; crece de 0.711 a un máximo de 0.90644 en la época 45"></div></figure>
+   <figure class="data-figure"><figcaption><h3>Error de las cajas</h3><p>Cuanto más bajo, mejor</p></figcaption><div id="loss-chart" class="line-chart" role="img" aria-label="Pérdida box_loss por época de entrenamiento y validación; ambas disminuyen"></div><div class="chart-legend"><span class="legend-train">Entrenamiento</span><span class="legend-val">Validación</span></div></figure>
+  </div>
+  <p class="bottom-statement compact">El error baja en ambos grupos. Al final, las mejoras son pequeñas.</p>
+  <p class="slide-footnote">No aparece un aumento sostenido del error de validación. Eso no demuestra por sí solo ausencia de sobreajuste.</p>
+ </div>
+ <aside class="speaker-notes">Estas curvas se dibujan con los 50 registros reales del CSV. Las oscilaciones iniciales son mayores. La precisión y el recall también se acercan a 1. Fotos similares entre grupos pueden producir métricas optimistas; hay que comprobar otras sesiones.</aside>
+</section>
+
+<section class="slide" id="slide-9" aria-labelledby="title-9" data-title="Reconocer el objeto y ajustar su caja">
+ <div class="slide-inner">
+  <h2 id="title-9">Reconocer el objeto<br>y ajustar su caja</h2>
+  <div class="metric-layout grow">
+   <div class="metric-definition"><h3>mAP50</h3><p>Acepta una superposición de al menos 0.50 entre la caja predicha y la etiqueta.</p><strong class="metric-value">99.5 %</strong><span>en test para los tres tamaños</span></div>
+   <div class="metric-definition stricter"><h3>mAP50-95</h3><p>Promedia resultados con exigencias de superposición desde 0.50 hasta 0.95.</p><strong class="metric-value">89.5 %</strong><span>en test para nano</span></div>
+  </div>
+  <p class="bottom-statement compact">La métrica más estricta permite distinguir el ajuste de las cajas.</p>
+  <p class="slide-footnote">mAP no es el porcentaje de fotos acertadas. También depende de clasificación, precisión y recall.</p>
+ </div>
+ <aside class="speaker-notes">IoU es el área compartida por las dos cajas dividida por su unión. mAP50-95 se promedia en umbrales de 0.50, 0.55, …, 0.95 y entre clases. Precisión: proporción correcta de las detecciones. Recall: proporción detectada de los objetos reales. conf=0.25 filtra la salida, no cambia los pesos.</aside>
+</section>
+
+<section class="slide" id="slide-10" aria-labelledby="title-10" data-title="Nano superó a small y medium en estas pruebas">
+ <div class="slide-inner">
+  <div class="heading-row"><h2 id="title-10">Nano fue el mejor<br>en estas pruebas</h2><div class="view-switch" role="group" aria-label="Grupo de evaluación del gráfico"><button type="button" data-metric="test" aria-pressed="true">Test</button><button type="button" data-metric="val" aria-pressed="false">Validación</button></div></div>
+  <p class="intro">Mismo dataset y configuración. Comparación con conf = 0.25.</p>
+  <div class="comparison-layout grow">
+   <div class="comparison-chart" id="comparison-chart" aria-label="Comparación de mAP50-95" role="img"></div>
+   <div class="comparison-summary"><p class="comparison-gap"><strong id="gap-small">+4.2</strong><span id="gap-small-label">puntos frente a small en test</span></p><p class="comparison-gap"><strong id="gap-medium">+6.1</strong><span id="gap-medium-label">puntos frente a medium en test</span></p><p class="small-copy">Mayor tamaño no produjo mejores resultados en estas ejecuciones.</p></div>
+  </div>
+  <table class="comparison-table"><caption class="sr-only">Resultados completos de los tres modelos</caption><thead><tr><th scope="col">mAP</th><th scope="col">Nano</th><th scope="col">Small</th><th scope="col">Medium</th></tr></thead><tbody><tr><th scope="row">50-95 · validación</th><td>90.3 %</td><td>87.7 %</td><td>86.1 %</td></tr><tr><th scope="row">50-95 · test</th><td>89.5 %</td><td>85.3 %</td><td>83.4 %</td></tr><tr><th scope="row">50 · test</th><td>99.5 %</td><td>99.5 %</td><td>99.5 %</td></tr></tbody></table>
+ </div>
+ <aside class="speaker-notes">La diferencia parece concentrarse en la localización más estricta de las cajas. mAP50 no separa por completo errores de clase y ubicación. No concluimos que nano siempre gane: es una ejecución de cada modelo y un test de 32 imágenes. Las diferencias se calculan como puntos porcentuales, no porcentajes relativos.</aside>
+</section>
+
+<section class="slide" id="slide-11" aria-labelledby="title-11" data-title="Los experimentos también cambiaron los datos">
+ <div class="slide-inner">
+  <h2 id="title-11">Los experimentos también<br>cambiaron los datos</h2>
+  <div class="experiment-timeline grow">
+   <div class="experiment-entry"><span class="experiment-label">Prueba inicial</span><div><h3>220 originales → 374 imágenes</h3><p>308 train · 44 validación · 22 test</p><p class="small-copy">Juan José tenía solo un ejemplo en test.</p></div></div>
+   <div class="experiment-entry"><span class="experiment-label">Dataset actual</span><div><h3>323 originales → 549 imágenes</h3><p>452 train · 65 validación · 32 test</p><p class="small-copy">Mayor representación de los tres peluches.</p></div></div>
+   <div class="experiment-entry"><span class="experiment-label">Balanceo en notebook</span><div><h3>0.707 de mAP50-95 en test</h3><p>Frente a 0.895 del nano actual.</p><p class="small-copy">Cambió la división: no aísla el efecto de la aumentación.</p></div></div>
+  </div>
+  <p class="slide-footnote">La comparación directa de tamaños sí conserva el dataset actual y sus grupos.</p>
+ </div>
+ <aside class="speaker-notes">El notebook alternativo igualó las cantidades por clase y aplicó los aumentos al entrenar. Su test no fue el mismo del export de Roboflow; no podemos concluir que una herramienta de aumentación sea superior a la otra solo por estas cifras.</aside>
+</section>
+
+<section class="slide" id="slide-12" aria-labelledby="title-12" data-title="El detector reconoce a los amigos de NAO">
+ <div class="slide-inner">
+  <h2 id="title-12">El detector reconoce a los amigos de NAO</h2>
+  <p class="intro">Cada detección devuelve una caja, una clase y una confianza.</p>
+  <div class="prediction-grid grow">
+   <figure><img src="assets/prediction-0.webp" alt="Predicción guardada: caja y etiqueta sobre el peluche de Juan José" width="900" height="1200"><figcaption>Juan José</figcaption></figure>
+   <figure><img src="assets/prediction-1.webp" alt="Predicción guardada: caja y etiqueta sobre el peluche verde de Martín" width="900" height="1200"><figcaption>Martín</figcaption></figure>
+   <figure><img src="assets/prediction-2.webp" alt="Predicción guardada: caja y etiqueta sobre el peluche café de Sebastián junto a un monitor" width="900" height="1200"><figcaption>Sebastián</figcaption></figure>
+  </div>
+  <p class="slide-footnote">Ejemplos estáticos del proyecto. La aplicación de cámara utiliza best.pt y conf = 0.25.</p>
+ </div>
+ <aside class="speaker-notes">No es una cámara transmitida dentro de la presentación. El script de Python abre la cámara. Background no es una cuarta clase del detector: en la matriz contabiliza objetos omitidos o detecciones sin etiqueta correspondiente.</aside>
+</section>
+
+<section class="slide" id="slide-13" aria-labelledby="title-13" data-title="Qué aprendimos del proyecto">
+ <div class="slide-inner">
+  <h2 id="title-13">Qué aprendimos del proyecto</h2>
+  <ul class="lesson-list grow">
+   <li><h3>Nano fue suficiente</h3><p>Small y medium no mejoraron sus resultados con este dataset y esta configuración.</p></li>
+   <li><h3>Las cajas marcaron la diferencia</h3><p>Los tres alcanzaron 99.5 % de mAP50. Nano destacó al exigir mayor superposición con las etiquetas.</p></li>
+   <li><h3>La confianza implica un intercambio</h3><p>Subir conf filtra detecciones falsas, pero también puede ocultar peluches reales.</p></li>
+   <li><h3>La cámara orienta los siguientes pasos</h3><p>Permite identificar qué distancias, posiciones o condiciones de luz necesitan más ejemplos.</p></li>
+  </ul>
+  <p class="bottom-statement compact">Ahora comprobamos estos resultados con la cámara.</p>
+ </div>
+ <aside class="speaker-notes">Las conclusiones se limitan a las pruebas realizadas. Nano obtuvo 0.895 de mAP50-95 en test, frente a 0.853 de small y 0.834 de medium. La igualdad de mAP50 sugiere que la diferencia principal está en la localización más estricta, aunque esa métrica no separa por completo clasificación y ubicación. conf filtra predicciones sin cambiar los pesos. La demostración siguiente permite observar los aciertos y errores del detector con los amigos de NAO y recoger ejemplos para una mejora futura.</aside>
+</section>
+
+<section class="slide dark" id="slide-14" aria-labelledby="title-14" data-title="Probemos el detector con Python">
+ <div class="slide-inner">
+  <h2 id="title-14">Ahora, probemos el detector<br>de los amigos de NAO</h2>
+  <div class="run-layout grow">
+   <div>
+    <p class="lead">Presentemos a los tres amigos ante la cámara y comprobemos si el modelo los reconoce.</p>
+    <p class="small-copy">Cambia la distancia y la posición de cada peluche. Después retíralos para comprobar si aparecen falsas detecciones.</p>
+    <p class="small-copy">Presiona <kbd>q</kbd> en la ventana de cámara para terminar.</p>
+   </div>
+   <div class="terminal demo-terminal">
+    <div class="terminal-title">En la terminal del repositorio</div>
+    <pre><code id="demo-command">uv run python probar_camara.py</code></pre>
+    <button class="demo-copy" id="copy-command" type="button">Copiar comando</button>
+    <p id="copy-status" role="status" aria-live="polite">Usa el modelo nano ya entrenado.</p>
+   </div>
+  </div>
+  <p class="slide-footnote">Demostración del modelo con la cámara del computador.</p>
+ </div>
+ <aside class="speaker-notes">Esta es la transición a la demostración práctica. Desde la carpeta yolo_nao, ejecutar uv run python probar_camara.py. El botón solo copia el comando para pegarlo en la terminal; no inicia Python. El script carga runs/peluches/train/weights/best.pt con conf=0.25 y usa la cámara del computador. Requiere haber ejecutado uv sync y concedido permisos de cámara. No se está demostrando una integración física con NAO.</aside>
+</section>
+</main>
+
+<footer class="deck-controls">
+ <div class="control-left"><span id="slide-count" class="slide-count" aria-hidden="true">01 <span>/ 14</span></span><span id="section-name" class="section-name">Los amigos que NAO quiere reconocer</span></div>
+ <div class="control-right"><button type="button" id="notes-button" class="text-control" aria-haspopup="dialog">Notas</button><button type="button" id="help-button" class="icon-control" aria-label="Mostrar atajos de teclado">?</button><button type="button" id="fullscreen-button" class="icon-control" aria-label="Activar pantalla completa"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5"/></svg></button><button type="button" id="previous-button" class="arrow-control" aria-label="Diapositiva anterior"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m14 6-6 6 6 6"/></svg></button><button type="button" id="next-button" class="arrow-control next-control" aria-label="Diapositiva siguiente"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m10 6 6 6-6 6"/></svg></button></div>
+ <div class="deck-progress" aria-hidden="true"><span id="progress-fill"></span></div>
+</footer>
+<div id="announcement" class="sr-only" role="status" aria-live="polite"></div>
+<dialog id="index-dialog" aria-labelledby="index-title"><div class="dialog-heading"><h2 id="index-title">Índice</h2><button class="close-control" type="button" data-close>Cerrar</button></div><nav id="slide-index" aria-label="Diapositivas"></nav></dialog>
+<dialog id="notes-dialog" aria-labelledby="notes-title"><div class="dialog-heading"><h2 id="notes-title">Notas del expositor</h2><button class="close-control" type="button" data-close>Cerrar</button></div><h3 id="notes-slide-title"></h3><p id="notes-content"></p></dialog>
+<dialog id="help-dialog" aria-labelledby="help-title"><div class="dialog-heading"><h2 id="help-title">Controles</h2><button class="close-control" type="button" data-close>Cerrar</button></div><dl class="shortcut-list"><div><dt>Avanzar / retroceder</dt><dd>Flechas · Espacio</dd></div><div><dt>Primera / última</dt><dd>Home · End</dd></div><div><dt>Índice / notas</dt><dd>I · N</dd></div><div><dt>Pantalla completa</dt><dd>F</dd></div><div><dt>Imprimir o guardar PDF</dt><dd>P</dd></div><div><dt>Cerrar un diálogo</dt><dd>Esc</dd></div></dl></dialog>
+<noscript><p class="noscript-note">La navegación requiere JavaScript. Actívalo o utiliza la impresión del navegador para leer todas las diapositivas.</p><style>.deck{height:auto}.slide{display:block;position:relative;min-height:90vh}.deck-controls{display:none}</style></noscript>
+</body>
+</html>

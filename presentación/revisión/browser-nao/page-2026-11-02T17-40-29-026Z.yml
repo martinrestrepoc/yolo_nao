@@ -1,0 +1,35 @@
+- generic [active] [ref=e1]:
+  - link "Ir a la diapositiva" [ref=e2] [cursor=pointer]:
+    - /url: "#deck"
+  - banner [ref=e3]:
+    - link "Volver al inicio" [ref=e4] [cursor=pointer]:
+      - /url: "#1"
+      - text: NAO / sus amigos
+    - generic [ref=e5]: Visión para reconocer a sus amigos
+    - button "Índice" [ref=e6] [cursor=pointer]: Índice ↗
+  - main "Presentación del proyecto" [ref=e7]:
+    - region [ref=e8]:
+      - generic [ref=e9]:
+        - generic [ref=e10]:
+          - heading [level=1] [ref=e11]:
+            - text: NAO quierereconocer a sus
+            - emphasis [ref=e12]: amigos.
+          - paragraph [ref=e13]: Tres peluches que NAO quiere reconocer, aprendidos a partir de fotografías propias.
+          - paragraph [ref=e14]: YOLO26 nano · reconocimiento de sus amigos
+          - paragraph [ref=e16]: Datos → entrenamiento → evaluación → cámara
+        - figure "Martín Fotografía del dataset" [ref=e17]:
+          - img "Peluche de Martín con disfraz verde, fotografiado de frente sobre una cama" [ref=e18]
+          - generic [ref=e19]:
+            - generic [ref=e20]: Martín
+            - generic [ref=e21]: Fotografía del dataset
+  - contentinfo [ref=e22]:
+    - generic [ref=e23]:
+      - generic [aria-hidden] [ref=e24]: 01 / 14
+      - generic [ref=e25]: Los amigos que NAO quiere reconocer
+    - generic [ref=e26]:
+      - button "Notas" [ref=e27] [cursor=pointer]
+      - button "Mostrar atajos de teclado" [ref=e28] [cursor=pointer]: "?"
+      - button "Activar pantalla completa" [ref=e29] [cursor=pointer]
+      - button "Diapositiva anterior" [disabled] [ref=e32]
+      - button "Diapositiva siguiente" [ref=e35] [cursor=pointer]
+  - status [ref=e40]

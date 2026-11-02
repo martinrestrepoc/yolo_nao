@@ -1,0 +1,35 @@
+- generic [active] [ref=e1]:
+  - link "Ir a la diapositiva" [ref=e2] [cursor=pointer]:
+    - /url: "#deck"
+  - banner [ref=e3]:
+    - link "Volver al inicio" [ref=e4] [cursor=pointer]:
+      - /url: "#1"
+      - text: YOLO26 / Peluches
+    - generic [ref=e5]: Un proyecto de visión por computador
+    - button "Índice" [ref=e6] [cursor=pointer]: Índice ↗
+  - main "Presentación del proyecto" [ref=e7]:
+    - region [ref=e8]:
+      - generic [ref=e9]:
+        - generic [ref=e10]:
+          - heading [level=1] [ref=e11]:
+            - text: Un detectorpara nuestros
+            - emphasis [ref=e12]: peluches.
+          - paragraph [ref=e13]: Fotografías propias, un modelo pequeño y una decisión respaldada por resultados.
+          - paragraph [ref=e14]: Detección de objetos con YOLO26 nano
+          - paragraph [ref=e16]: Datos → entrenamiento → evaluación → cámara
+        - figure "Martín Fotografía del dataset" [ref=e17]:
+          - img "Peluche de Martín con disfraz verde, fotografiado de frente sobre una cama" [ref=e18]
+          - generic [ref=e19]:
+            - generic [ref=e20]: Martín
+            - generic [ref=e21]: Fotografía del dataset
+  - contentinfo [ref=e22]:
+    - generic [ref=e23]:
+      - generic [aria-hidden] [ref=e24]: 01 / 15
+      - generic [ref=e25]: Un detector para nuestros peluches
+    - generic [ref=e26]:
+      - button "Notas" [ref=e27] [cursor=pointer]
+      - button "Mostrar atajos de teclado" [ref=e28] [cursor=pointer]: "?"
+      - button "Activar pantalla completa" [ref=e29] [cursor=pointer]
+      - button "Diapositiva anterior" [disabled] [ref=e32]
+      - button "Diapositiva siguiente" [ref=e35] [cursor=pointer]
+  - status [ref=e40]

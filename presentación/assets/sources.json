@@ -1,0 +1,42 @@
+{
+  "subject-0.webp": {
+    "source": "imagenes_peluchesv3/test/images/IMG_2158_HEIC.rf.2940f1281b807d99f7f72c3685c0fbf5.jpg",
+    "transformation": "Redimensionado proporcional hasta 1200 px y convertido a WebP; sin alterar detecciones."
+  },
+  "hero-0.webp": {
+    "source": "imagenes_peluchesv3/test/images/IMG_2146_HEIC.rf.0910d88fb16d065571835c2154e84912.jpg",
+    "transformation": "Redimensionado proporcional hasta 1200 px y convertido a WebP; sin alterar detecciones."
+  },
+  "subject-1.webp": {
+    "source": "imagenes_peluchesv3/test/images/IMG_6621_HEIC.rf.82339887c9dd32cc81f5dac4fccc5a62.jpg",
+    "transformation": "Redimensionado proporcional hasta 1200 px y convertido a WebP; sin alterar detecciones."
+  },
+  "hero-1.webp": {
+    "source": "imagenes_peluchesv3/test/images/IMG_6603_HEIC.rf.fc8c9687b626cf7c123a725e4f89a215.jpg",
+    "transformation": "Redimensionado proporcional hasta 1200 px y convertido a WebP; sin alterar detecciones."
+  },
+  "subject-2.webp": {
+    "source": "imagenes_peluchesv3/test/images/WhatsApp-Image-2026-10-24-at-1-30-49-PM-2-_jpeg.rf.9775bfafe27c5bc59f861debe4c18bd1.jpg",
+    "transformation": "Redimensionado proporcional hasta 1200 px y convertido a WebP; sin alterar detecciones."
+  },
+  "augment-a.webp": {
+    "source": "imagenes_peluchesv3/train/images/IMG_6604_HEIC.rf.28d231c8abda22e997011a7f637e213e.jpg",
+    "transformation": "Redimensionado proporcional hasta 1200 px y convertido a WebP; sin alterar detecciones."
+  },
+  "augment-b.webp": {
+    "source": "imagenes_peluchesv3/train/images/IMG_6604_HEIC.rf.31867f2e2149da8ad4e00697d23f74f6.jpg",
+    "transformation": "Redimensionado proporcional hasta 1200 px y convertido a WebP; sin alterar detecciones."
+  },
+  "prediction-0.webp": {
+    "source": "runs/peluches/predict/IMG_2146_HEIC.rf.0910d88fb16d065571835c2154e84912.jpg",
+    "transformation": "Redimensionado proporcional hasta 1200 px y convertido a WebP; sin alterar detecciones."
+  },
+  "prediction-1.webp": {
+    "source": "runs/peluches/predict/IMG_6618_HEIC.rf.3ec1a2740744e9f66d9d2ce7b858d5fe.jpg",
+    "transformation": "Redimensionado proporcional hasta 1200 px y convertido a WebP; sin alterar detecciones."
+  },
+  "prediction-2.webp": {
+    "source": "runs/peluches/predict/WhatsApp-Image-2026-10-24-at-1-30-48-PM-1-_jpeg.rf.b1b31033d9310195e36e41b7333765a3.jpg",
+    "transformation": "Redimensionado proporcional hasta 1200 px y convertido a WebP; sin alterar detecciones."
+  }
+}
