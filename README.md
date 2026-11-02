@@ -113,3 +113,73 @@ de los pesos preentrenados `yolo26n.pt` requiere internet.
 Los mejores pesos se guardan en `runs/peluches/train/weights/best.pt`, la misma
 ruta que usa el script de cámara. Al volver a entrenar se reemplaza el modelo
 anterior en esa ruta.
+
+## Métrica y selección del mejor modelo
+
+Usamos **mAP50-95 de validación** para seleccionar el mejor modelo. Esta métrica
+evalúa la clase predicha y la ubicación de las cajas, promediando la precisión
+media entre las clases y entre umbrales de superposición IoU de 0.50 a 0.95.
+Es más exigente con el ajuste de las cajas que mAP50; no representa el porcentaje
+de imágenes acertadas.
+
+En el entrenamiento nano registrado, el mejor resultado ocurrió en la
+**época 45**, con un mAP50-95 de validación de **0.90644** (90.644 %). El valor
+puede consultarse en la columna `metrics/mAP50-95(B)` de
+[runs/peluches/train/results.csv](runs/peluches/train/results.csv), incluido en
+el repositorio para consultar las pérdidas y métricas de cada época.
+Se entrenaron 50 épocas y `best.pt` conserva
+los pesos del mejor resultado, no necesariamente los de la última época.
+
+La validación automática después de cada época guía esa selección. Test se
+reserva para la evaluación final y no participa en la elección de `best.pt`.
+Las evaluaciones posteriores del notebook usan `conf=0.25`, por lo que sus
+métricas pueden diferir de las registradas durante el entrenamiento. Un nuevo
+entrenamiento puede obtener su mejor resultado en otra época.
+
+## Análisis de las curvas de entrenamiento
+
+En las gráficas del notebook nano, los errores de entrenamiento y validación
+disminuyen, mientras la precisión y el recall se acercan a 1. Esto indica que
+el modelo mejora tanto al reconocer los peluches como al ubicar sus cajas.
+El mAP50 se estabiliza pronto y el mAP50-95 sigue aumentando, señal de que el
+ajuste de las cajas continúa mejorando aunque ya se detecten los objetos.
+
+Hacia las últimas épocas las mejoras son pequeñas. No se observa un aumento
+sostenido del error de validación, por lo que las curvas no muestran una señal
+clara de sobreajuste. Aun así, los resultados deben confirmarse con fotos de
+sesiones nuevas: las imágenes casi iguales repartidas entre entrenamiento y
+validación pueden hacer que las métricas parezcan mejores de lo que serían en
+escenarios nuevos.
+
+## Pruebas realizadas
+
+La primera prueba usó un dataset más pequeño: 220 originales que, después de
+aumentar x2 únicamente train, dieron 374 imágenes (308 de entrenamiento, 44 de
+validación y 22 de test). La distribución por clase era menos equilibrada; por
+ejemplo, test tenía solo una imagen del peluche de Juan José, insuficiente para
+evaluar de forma representativa esa clase.
+
+Después se amplió la colección a 323 originales y se generó el dataset actual
+de 549 imágenes descrito arriba. También se probó un notebook alternativo con
+balanceo exacto por clase y aumentos durante el entrenamiento con Ultralytics.
+Ese experimento obtuvo un mAP50-95 de test de 0.707, frente a 0.895 del nano
+actual con el export aumentado de Roboflow. Como se utilizaron divisiones y
+cantidades de entrenamiento diferentes, esta comparación no permite atribuir
+la diferencia únicamente a la herramienta de aumentación.
+
+Con el mismo dataset actual se comparó **YOLO26 nano con YOLO26 medium**,
+manteniendo las divisiones, los parámetros de entrenamiento y el umbral de
+evaluación `conf=0.25`:
+
+| Métrica | Nano | Medium |
+|---|---:|---:|
+| mAP50-95 en validación | 0.903 | 0.861 |
+| mAP50-95 en test | 0.895 | 0.834 |
+| mAP50 en test | 0.995 | 0.995 |
+
+Medium no mejoró el resultado en esta ejecución: ambos alcanzaron el mismo
+mAP50 en test, pero nano obtuvo mayor mAP50-95, que exige cajas más precisas.
+Por eso se conservó nano como modelo del script de cámara. Esto no significa
+que medium siempre rinda peor; la conclusión corresponde a estos datos y esta
+configuración. Los notebooks y datasets de los experimentos alternativos se
+conservan localmente y están excluidos de Git.

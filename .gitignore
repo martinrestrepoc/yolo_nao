@@ -29,11 +29,12 @@ wheels/
 /imagenes_peluches*/
 !/imagenes_peluchesv3/
 
-# Incluir solo los mejores pesos del modelo nano para usarlo al clonar
+# Incluir los mejores pesos y el registro de entrenamiento nano
 !/runs/peluches/
 /runs/peluches/*
 !/runs/peluches/train/
 /runs/peluches/train/*
+!/runs/peluches/train/results.csv
 !/runs/peluches/train/weights/
 /runs/peluches/train/weights/*
 !/runs/peluches/train/weights/best.pt
